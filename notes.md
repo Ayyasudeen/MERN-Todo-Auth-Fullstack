@@ -2,3 +2,4 @@
 2. in the backend folder npm init -y 
 3. and then npm i express bcrypt dotenv express-validator jsonwebtoken mongoose 
 4. npm install --save-dev nodemon
+5. created db in the mongodb atlas and pasted the MONGO_URI link with username and password
