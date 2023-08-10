@@ -4,3 +4,4 @@
 4. npm install --save-dev nodemon
 5. created db in the mongodb atlas and pasted the MONGO_URI link with username and password
 6. create folders in the backend folder, controllers, models, routes
+7. JWT_SECRET is created in the .env and a secret is used for it which no one can guess
