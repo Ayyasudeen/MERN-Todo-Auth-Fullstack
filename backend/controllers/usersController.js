@@ -77,7 +77,20 @@ export const logout = async (req, res) => {
     res.status(200).json({msg: "User Logged Out Successfully"});
 };
 
-export const getMe = async (req, res) => {};
+export const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.user);
+        if (!user) {
+            return res.status(404).json({msg: "User Not Found"});
+        }
+        const {password: pass, ...rest} = user._doc;
+        return res.status(200).json({msg: "User Found", user: rest});
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({errors: "Internal Server Error"});
+    }
+};
 
 export const updateDetails = async (req, res) => {};
 
