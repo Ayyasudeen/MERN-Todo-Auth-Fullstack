@@ -14,5 +14,13 @@
   "password": "ayyas123",
   "age": 28
 }
+{
+  "name": "Julfia",
+  "email": "julfia@gmail.com",
+  "password": "123",
+  "age": 23
+}
 10. after the success message we can see the cookie stored.
 11. localhost:4000/api/users/logout --> GET
+12. localhost:4000/api/users/login --> POST
+13. localhost:4000/api/users/me --> GET this is to get some info about the logged in user 
