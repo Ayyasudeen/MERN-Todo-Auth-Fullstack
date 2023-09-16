@@ -123,7 +123,7 @@ export const updateDetails = async (req, res) => {
 
 export const updatePassword = async (req, res) => {
     const {password, newPassword} = req.body;
-    
+
     try {
         const user = await User.findById(req.user);
         if (!user) {
@@ -136,6 +136,8 @@ export const updatePassword = async (req, res) => {
         }
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(newPassword, salt);
+
+        await user.save();
 
         const {password: pass, ...rest} = user._doc;
         return res.status(200).json({msg: "Password Updated Successfully", user: rest});
