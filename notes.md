@@ -26,3 +26,4 @@
 13. localhost:4000/api/users/me --> GET this is to get some info about the logged in user 
 14. localhost:4000/api/users/updateDetails ---> PUT
 15. localhost:4000/api/users/updatepassword ---> PUT
+16. localhost:4000/api/users/delete ---> DELETE
