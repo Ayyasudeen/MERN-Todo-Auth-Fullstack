@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import Todo from "../models/Todo.js";
 
 export const register = async (req, res) => {
     const {name, email, password, age} = req.body;
@@ -153,6 +154,11 @@ export const deleteUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({msg: "User Not Found"});
         }
+        const todo = await Todo.find({user: req.user});
+        if (todo) {
+            await Todo.deleteMany({user: req.user});
+        }
+        res.clearCookie("token");
         await user.deleteOne();
         return res.status(200).json({msg: "User Deleted Successfully"});
     } catch (error) {
