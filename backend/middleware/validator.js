@@ -34,3 +34,13 @@ export const updateTodoRules = [
     check("completed", "Completed is Required").notEmpty().trim().escape().isBoolean(),
 ];
 
+// check("password", "Password should meet the following criteria:")
+//   .isLength({ min: 8 })
+//   .matches(/[a-z]/) // Contains lowercase letters
+//   .matches(/[A-Z]/) // Contains uppercase letters
+//   .matches(/[0-9]/) // Contains numeric digits
+//   .matches(/[@$!%*?&]/) // Contains special characters like @, $, !, etc.
+//   .trim();
+
+
+
