@@ -23,3 +23,14 @@ export const updatePasswordRules = [
     check("newPassword", "Password should be 6 or more characters").isLength({min: 6}),
 ];
 
+export const createTodoResults = [
+    check("title", "Title is Required").notEmpty().trim().escape(),
+    check("description", "Description is Required").notEmpty().trim().escape(),
+];
+
+export const updateTodoResults = [
+    check("title", "Title is Required").notEmpty().trim().escape(),
+    check("description", "Description is Required").notEmpty().trim().escape(),
+    check("completed", "Completed is Required").notEmpty().trim().escape().isBoolean(),
+];
+
