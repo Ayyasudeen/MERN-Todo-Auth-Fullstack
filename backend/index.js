@@ -14,6 +14,9 @@ dotenv.config();
 connectionDB();
 
 app.use(cors());
+app.use(cors({
+    origin: 'https://mern-todo-jlo7tqi7i-ayyasudeen.vercel.app/'
+  }));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
