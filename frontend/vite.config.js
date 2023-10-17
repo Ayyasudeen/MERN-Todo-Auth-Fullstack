@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://mern-todo-backend-rng7.onrender.com',
+        target: 'http://localhost:4000',
         changeOrigin: true,
       },
     },

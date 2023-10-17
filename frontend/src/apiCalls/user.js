@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.baseURL = `https://mern-todo-backend-rng7.onrender.com`
+
 
 export const register = async (user) => {
     try {
