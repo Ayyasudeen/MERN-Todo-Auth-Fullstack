@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = `https://mern-todo-backend-tau.vercel.app`
-
 
 export const register = async (user) => {
     try {
