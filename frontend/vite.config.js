@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://mern-todo-backend-gg87ctdyv-ayyasudeen.vercel.app/',
+        target: 'mern-todo-backend-tau.vercel.app',
         changeOrigin: true,
         secure: true,      
         configure: (proxy, _options) => {
