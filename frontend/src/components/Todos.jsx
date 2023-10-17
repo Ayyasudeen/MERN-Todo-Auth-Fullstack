@@ -1,14 +1,13 @@
 
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { createTodo, deleteTodo, getTodos, updateTodo } from '../apiCalls/todo';
+import toast from 'react-hot-toast';
 
 function Todos() {
     const [data, setData] = useState([]);
     const [showTodoModal, setShowTodoModal] = useState(false);
     const [editTodo, setEditTodo] = useState(0);
     const [todoId, setTodoId] = useState("");
-    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -23,9 +22,17 @@ function Todos() {
     }
 
     async function handleDelete(id) {
+        const toastId = toast.loading('Loading...');
         const response = await deleteTodo(id);
-        console.log(response.data, "Delete Response");
-        handleTodos();
+        if (response.status === 200) {
+            toast.dismiss(toastId);
+            toast.error('Todo Deleted Successfully!')
+            handleTodos();
+            console.log(response.data, "Delete Response");
+        } else {
+            toast.dismiss(toastId);
+            toast.error('Error Occurred!')
+        }
     }
 
     useEffect(() => {
@@ -53,11 +60,17 @@ function Todos() {
     }
 
     async function addTodo() {
+        const toastId = toast.loading('Loading...');
         const response = await createTodo(formData);
         console.log(response, "Create Todo Response");
         if (response.status === 201) {
+            toast.dismiss(toastId);
+            toast.success('New Todo Added!')
             handleTodos();
             setShowTodoModal(false);
+        } else {
+            toast.dismiss(toastId);
+            toast.error('Error Occurred!')
         }
     }
 
@@ -74,11 +87,17 @@ function Todos() {
     }
 
     async function updateTodoSubmit() {
+        const toastId = toast.loading('Loading...');
         const response = await updateTodo(todoId, formData);
         console.log(response, "Update Todo Response");
         if (response.status === 200) {
+            toast.dismiss(toastId);
+            toast.success('Todo Updated!')
             handleTodos();
             setShowTodoModal(false);
+        } else {
+            toast.dismiss(toastId);
+            toast.error('Error Occurred!')
         }
     }
 
@@ -90,7 +109,7 @@ function Todos() {
     return (
         <>
             {!showTodoModal && 
-                <div className="w-full mx-auto mt-[12%] max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <div className="w-full mx-auto mt-[4%] max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <div className="flex items-center justify-between mb-4">
                         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Todos</h5>
                         <button onClick={() => {handleAdd()}} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">

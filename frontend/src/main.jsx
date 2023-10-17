@@ -10,27 +10,37 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Todos from './components/Todos';
+import Layout from './Layout';
+import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Todos />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <Todos />
+      },
+      {
+        path: "login",
+        element: <Login />
+      },
+      {
+        path: "register",
+        element: <Register />
+      },
+      {
+        path: "profile",
+        element: <Profile />
+      },
+
+    ]
+  }
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <Toaster />
     <RouterProvider router={router} />
   </React.StrictMode>,
 )
