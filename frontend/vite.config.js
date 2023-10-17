@@ -11,7 +11,6 @@ export default defineConfig({
         target: 'https://mern-todo-backend-gg87ctdyv-ayyasudeen.vercel.app/',
         changeOrigin: true,
         secure: true,      
-        ws: true,
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
             console.log('proxy error', err);
