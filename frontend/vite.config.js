@@ -10,7 +10,7 @@ export default defineConfig({
       '/api': {
         target: 'https://mern-todo-backend-gg87ctdyv-ayyasudeen.vercel.app/',
         changeOrigin: true,
-        secure: false,      
+        secure: true,      
         ws: true,
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
