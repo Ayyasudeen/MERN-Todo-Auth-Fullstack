@@ -12,6 +12,9 @@ import Profile from './components/Profile';
 import Todos from './components/Todos';
 import Layout from './Layout';
 import { Toaster } from 'react-hot-toast';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'https://mern-todo-backend-rng7.onrender.com';
 
 const router = createBrowserRouter([
   {
