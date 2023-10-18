@@ -25,10 +25,9 @@ function Todos() {
         const toastId = toast.loading('Loading...');
         const response = await deleteTodo(id);
         if (response.status === 200) {
+            handleTodos();
             toast.dismiss(toastId);
             toast.error('Todo Deleted Successfully!')
-            handleTodos();
-            console.log(response.data, "Delete Response");
         } else {
             toast.dismiss(toastId);
             toast.error('Error Occurred!')
@@ -64,9 +63,9 @@ function Todos() {
         const response = await createTodo(formData);
         console.log(response, "Create Todo Response");
         if (response.status === 201) {
+            handleTodos();
             toast.dismiss(toastId);
             toast.success('New Todo Added!')
-            handleTodos();
             setShowTodoModal(false);
         } else {
             toast.dismiss(toastId);
@@ -91,10 +90,10 @@ function Todos() {
         const response = await updateTodo(todoId, formData);
         console.log(response, "Update Todo Response");
         if (response.status === 200) {
+            await handleTodos();
+            setShowTodoModal(false);
             toast.dismiss(toastId);
             toast.success('Todo Updated!')
-            handleTodos();
-            setShowTodoModal(false);
         } else {
             toast.dismiss(toastId);
             toast.error('Error Occurred!')
