@@ -20,11 +20,11 @@ const Layout = () => {
     <>
         {
           name ? 
-          <><Navbar /><Outlet /></>
+          <div className='h-screen overflow-hidden'><Navbar /><Outlet /></div>
           : window.location.pathname == "/register" ?
-          <><Navbar /><Register /></>
+          <div className='h-screen overflow-hidden'><Navbar /><Register /></div>
           :
-          <><Navbar /><Login /></>
+          <div className='h-screen overflow-hidden'><Navbar /><Login /></div>
         }
     </>
   )
