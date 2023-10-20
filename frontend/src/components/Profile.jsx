@@ -8,8 +8,8 @@ import { shallow } from 'zustand/shallow';
 
 function Profile() {
   const navigate = useNavigate();
-  const { name, updateName } = userStore(
-    (state) => ({ name: state.name, updateName: state.updateName }),
+  const {updateName } = userStore(
+    (state) => ({updateName: state.updateName }),
     shallow
   );
   const [data, setData] = useState({})
@@ -22,8 +22,17 @@ function Profile() {
   const [formData1, setFormData1] = useState({
     name: '',
     email: '',
-    age: ''
+    age: '',
+    my_file: null,
   });
+  const handleSelectFile = (e) => {
+    const selFile = e.target.files[0];
+    setFormData1({
+      ...formData1,
+      my_file: selFile,
+  });
+
+  } 
 
   async function handleProfile() {
       const response = await getUser();
@@ -32,7 +41,7 @@ function Profile() {
       setFormData1({
         name: response.data.user.name,
         email: response.data.user.email,
-        age: response.data.user.age
+        age: response.data.user.age,
     });
   }
 
@@ -74,8 +83,14 @@ function Profile() {
   }
 
   async function changeDetails(formData1) {
+    const updateFormData = new FormData();
+    updateFormData.append('name', formData1.name);
+    updateFormData.append('email', formData1.email);
+    updateFormData.append('age', formData1.age);
+    updateFormData.append('my_file', formData1.my_file);
+    console.log(updateFormData, "updateFormData")
     const toastId = toast.loading('Loading...');
-    const response = await updateDetails(formData1);
+    const response = await updateDetails(updateFormData);
     console.log(response, "update details Response");
     if (response.status === 200) {
       toast.dismiss(toastId);
@@ -159,7 +174,7 @@ function Profile() {
         {(!showPasswordModal && !showDetailsModal) &&
           <div className="flex items-center w-80 mx-auto mt-[4%] justify-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
               <div className="flex flex-col items-center pb-5">
-                  <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src="https://t4.ftcdn.net/jpg/03/32/59/65/240_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg" alt="Bonnie image"/>
+                  <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={`${data.profilepic ? data.profilepic : "https://t4.ftcdn.net/jpg/03/32/59/65/240_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"}`} alt="Profile image"/>
                   <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{data.name}</h5>
                   <span className="text-sm text-gray-500 dark:text-gray-400">{data.email}</span>
                   <span className="text-sm text-gray-500 dark:text-gray-400">{data.age} years old</span>
@@ -223,6 +238,14 @@ function Profile() {
                               <div>
                                   <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
                                   <input onChange={handleInputChange1} value={formData1.age} type="text" name="age" id="age" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Age" required />
+                              </div>
+                              <div>
+                                <input
+                                  id="file"
+                                  type="file"
+                                  onChange={handleSelectFile}
+                                  multiple={false}
+                                />
                               </div>
                               <button type="submit" onClick={handleSubmit1} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Details</button>
                           </form>
