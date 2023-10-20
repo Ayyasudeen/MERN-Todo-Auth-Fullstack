@@ -2,6 +2,11 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import Todo from "../models/Todo.js";
+import multer from "multer";
+import {v2 as cloudinary} from 'cloudinary';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const register = async (req, res) => {
     const {name, email, password, age} = req.body;
@@ -96,6 +101,14 @@ export const updateDetails = async (req, res) => {
     const {name, email, age} = req.body;
 
     try {
+        const b64 = Buffer.from(req.file.buffer).toString("base64");
+        let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+        const image = await cloudinary.uploader.upload(dataURI, {
+            resource_type: "auto",
+            folder: "todo_profile_pic"
+        });
+
+
         let user = await User.findById(req.user);
         if (!user) {
             return res.status(404).json({msg: "User Not Found"});
@@ -109,6 +122,7 @@ export const updateDetails = async (req, res) => {
         user.name = name;
         user.email = email;
         user.age = age;
+        user.profilepic = image.secure_url;
 
         await user.save();
 
@@ -166,3 +180,24 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({errors: "Internal Server Error"});
     }
 };
+
+const storage = new multer.memoryStorage();
+export const upload = multer({
+storage,
+});
+
+export const handleUpload = async (req, res) => {
+    try {
+        const b64 = Buffer.from(req.file.buffer).toString("base64");
+        let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+        const image = await cloudinary.uploader.upload(dataURI, {
+            resource_type: "auto",
+            folder: "todo_profile_pic"
+        });
+        return res.status(200).json({msg: "Profile Image Updated Successfully", data: image});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({errors: "Internal Server Error"});
+    }
+}
+
