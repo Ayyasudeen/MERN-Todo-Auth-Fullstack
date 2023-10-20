@@ -6,7 +6,7 @@ import { validateResult } from "../middleware/validationResults.js";
 
 const router = express.Router();
 
-router.post("/register", registerRules, validateResult, register);
+router.post("/register", upload.single("my_file"), registerRules, validateResult, register);
 
 router.post("/login", loginRules, validateResult, login);
 
@@ -18,8 +18,7 @@ router.put("/updateDetails", authorize, upload.single("my_file"), updateDetailsR
 
 router.put("/updatepassword", authorize, updatePasswordRules, validateResult, updatePassword);
 
-router.delete("/delete", authorize, deleteUser);
+router.delete("/delete/:id", authorize, deleteUser);
 
-// router.post("/profilePic", upload.single("my_file"), handleUpload);
 
 export default router;
