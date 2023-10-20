@@ -17,7 +17,16 @@ const UserSchema = new mongoose.Schema({
     age: {
         type: Number,
         required: true,
+    },
+    profilepic: {
+        type: String,
+        required: false,
+    },
+    profilepicId: {
+        type: String,
+        required: false,
     }
+
 }, {timestamps: true});
 
 const User = mongoose.model("User", UserSchema);

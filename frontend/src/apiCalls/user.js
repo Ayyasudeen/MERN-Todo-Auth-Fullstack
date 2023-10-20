@@ -54,9 +54,9 @@ export const updatePassword = async (password) => {
     }
 }
 
-export const deleteUser = async () => {
+export const deleteUser = async (profilepicId) => {
     try {
-        const res = await axios.delete("/api/users/delete");
+        const res = await axios.delete(`/api/users/delete/${profilepicId}`);
         return res;
     } catch (error) {
         return error;

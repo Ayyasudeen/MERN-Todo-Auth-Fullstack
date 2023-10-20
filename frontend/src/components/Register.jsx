@@ -21,7 +21,13 @@ const navigate = useNavigate();
 
   async function handleRegister() {
     const toastId = toast.loading('Loading...');
-    const response = await register(formData);
+    const registerFormData = new FormData();
+    registerFormData.append('name', formData.name);
+    registerFormData.append('email', formData.email);
+    registerFormData.append('age', formData.age);
+    registerFormData.append('password', formData.password);
+    registerFormData.append('my_file', formData.my_file);
+    const response = await register(registerFormData);
     console.log(response, "Register Response");
     if (response.status === 201) {
         toast.success('Registration Successful!')
@@ -46,6 +52,14 @@ const navigate = useNavigate();
       [name]: value,
     });
   };
+
+  const handleSelectFile = (e) => {
+    const selFile = e.target.files[0];
+    setFormData({
+      ...formData,
+      my_file: selFile,
+    });
+  } 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -78,6 +92,10 @@ const navigate = useNavigate();
                   <div>
                       <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Age</label>
                       <input type="number" name="age" id="age" value={formData.age} onChange={handleInputChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Age" required />
+                  </div>
+                  <div>
+                      <label htmlFor="profilePic" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile Picture</label>
+                      <input type="file" name="profilePic" id="profilePic" multiple={false} onChange={handleSelectFile} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Age" />
                   </div>
                   {/* <div className="flex items-center justify-between">
                       <div className="flex items-start">
