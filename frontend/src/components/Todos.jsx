@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { createTodo, deleteTodo, getTodos, updateTodo } from '../apiCalls/todo';
 import toast from 'react-hot-toast';
+import { motion } from "framer-motion"
 
 function Todos() {
     const [data, setData] = useState([]);
@@ -118,7 +119,7 @@ function Todos() {
                     <div className="flow-root">
                         <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                             {data.map((item) => (
-                                <li className="py-3 sm:py-4" key={item._id}>
+                                <motion.li whileHover={{ scale: 1.1 }} className="py-3 sm:py-4" key={item._id}>
                                     <div className="flex items-center space-x-4">
                                         <div className="flex-shrink-0">
                                             {item.completed ?
@@ -154,7 +155,7 @@ function Todos() {
                                             </button>
                                         </div>
                                     </div>
-                                </li>
+                                </motion.li>
                             ))}
                         </ul>
                     </div>
