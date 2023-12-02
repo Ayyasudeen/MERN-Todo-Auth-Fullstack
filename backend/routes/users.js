@@ -1,5 +1,5 @@
 import express from "express";
-import { register, login, logout, getMe, updateDetails, updatePassword, deleteUser, upload, handleUpload} from "../controllers/usersController.js"
+import { register, login, logout, getMe, updateDetails, updatePassword, deleteUser, upload, verifyUser} from "../controllers/usersController.js"
 import authorize from "../middleware/authorize.js";
 import { loginRules, registerRules, updateDetailsRules, updatePasswordRules } from "../middleware/validator.js";
 import { validateResult } from "../middleware/validationResults.js";
@@ -19,6 +19,8 @@ router.put("/updateDetails", authorize, upload.single("my_file"), updateDetailsR
 router.put("/updatepassword", authorize, updatePasswordRules, validateResult, updatePassword);
 
 router.delete("/delete/:id", authorize, deleteUser);
+
+router.get("/verify/:id/:token", verifyUser);
 
 
 export default router;

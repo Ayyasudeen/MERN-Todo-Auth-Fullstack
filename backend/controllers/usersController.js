@@ -5,6 +5,7 @@ import Todo from "../models/Todo.js";
 import multer from "multer";
 import {v2 as cloudinary} from 'cloudinary';
 import dotenv from "dotenv";
+import sendEmail from "../utils/email.js";
 
 dotenv.config();
 
@@ -44,12 +45,16 @@ export const register = async (req, res) => {
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: 360000});
-
-        res.cookie("token", token, {httpOnly: true, expiresIn: 360000});
-
-        const {password: pass, ...rest} = user._doc; // this is we have taken out the password and saved the other details in the rest variable, this is so that we don't send the password to the client
-
-        res.status(201).json({msg: "User Created Successfully", user: rest});
+      
+          const message = `${process.env.BASE_URL}/users/verify/${user._id}/${token}`;
+          await sendEmail(user.email, "Verify Email", message);
+      
+          
+          res.cookie("token", token, {httpOnly: true, expiresIn: 360000});
+          
+          const {password: pass, _id: id, ...rest} = user._doc; // this is we have taken out the password and saved the other details in the rest variable, this is so that we don't send the password to the client
+          
+          res.status(201).json({msg: "An Email sent to your account please verify", user: rest});
     } catch (error) {
         console.error(error.message);
         res.status(500).json({errors: "Internal Server Error"});
@@ -81,6 +86,10 @@ export const login = async (req, res) => {
         res.cookie("token", token, {httpOnly: true, expiresIn: 360000});
 
         const {password: pass, ...rest} = user._doc; // this is we have taken out the password and saved the other details in the rest variable, this is so that we don't send the password to the client
+
+        if (!user.verified) {
+            return res.status(400).json({msg: "Not Verified"});
+        }
 
         res.status(200).json({msg: "User Logged In Successfully", user: rest});
 
@@ -226,4 +235,26 @@ export const handleUpload = async (req, res) => {
         res.status(500).json({errors: "Internal Server Error"});
     }
 }
+
+export const verifyUser = async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.params.id });
+      if (!user) return res.status(400).send("Invalid link");
+  
+    //   const token = await Token.findOne({
+    //     userId: user._id,
+    //     token: req.params.token,
+    //   });
+    //   if (!token) return res.status(400).send("Invalid link");
+  
+      user.verified = true;
+      await user.save();
+    //   await Token.findByIdAndRemove(token._id);
+  
+      res.send("email verified sucessfully");
+     } catch (error) {
+        console.error(error.message);
+        res.status(500).json({errors: "Internal Server Error"});
+    }
+};
 

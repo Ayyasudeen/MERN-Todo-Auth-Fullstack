@@ -30,9 +30,9 @@ const navigate = useNavigate();
     const response = await register(registerFormData);
     console.log(response, "Register Response");
     if (response.status === 201) {
-        toast.success('Registration Successful!')
-        updateName(response.data.user.name);
-        navigate("/profile")
+        toast.success('Check your mail for account activation link')
+        // updateName(response.data.user.name);
+        navigate("/login")
         toast.dismiss(toastId);
       } else if (response.response.status === 400) {
         toast.dismiss(toastId);

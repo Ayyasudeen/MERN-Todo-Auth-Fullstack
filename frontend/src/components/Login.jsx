@@ -30,6 +30,14 @@ const navigate = useNavigate();
         toast.dismiss(toastId);
         updateName(null);
         toast.error(response.response.data.msg)
+      } else if (response.response.status === 400) {
+        toast.dismiss(toastId);
+        updateName(null);
+        if (response.response.data.msg === "Not Verified") {
+          toast.error("Account Verification Pending - Check your registered mail for the verification link", {
+            duration: 9000,
+          });
+        }
       } else {
         toast.dismiss(toastId);
         updateName(null);
