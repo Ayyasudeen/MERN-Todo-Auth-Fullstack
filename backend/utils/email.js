@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-const sendEmail = async (email, subject, text) => {
+const sendEmail = async (email, subject, link) => {
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.HOST,
@@ -16,8 +16,8 @@ const sendEmail = async (email, subject, text) => {
     await transporter.sendMail({
       from: process.env.USER,
       to: email,
-      subject: subject,
-      text: text,
+      subject: subject + " - TodoMaster",
+      html: `<p>Hello,\n Welcome to TodoMaster. Please <a href="${link}">click here</a> to verify your account.</p>`
     });
     console.log("email sent sucessfully");
   } catch (error) {
