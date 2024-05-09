@@ -1,14 +1,15 @@
-Checkout my fullstack personal project which I have built using ReactJS, MongoDB, NodeJS, ExpressJS and Cloudinary and Zustand, Tailwind CSS. 
+Checkout my fullstack personal project which I have built using ReactJS, MongoDB, NodeJS, ExpressJS, Cloudinary, Nodemailer, Zustand and Tailwind CSS. 
  
 The app has the following features:
-1. Register new account with optional profile picture upload. 
-2. Login account. 
-3. Update profile details. 
-4. Update password. 
-5. Delete Account. 
-6. Add Todo tasks. 
-7. Update Todo with mark as completed option. 
-8. Delete Todo. 
+1. Register new account with optional profile picture upload.
+2. Nodemailer for account activation.
+3. Login account. 
+4. Update profile details. 
+5. Update password. 
+6. Delete Account. 
+7. Add Todo tasks. 
+8. Update Todo with mark as completed option. 
+9. Delete Todo. 
  
 The routes in the app are protected so the user cannot access the protected routes unless logged in. 
  
